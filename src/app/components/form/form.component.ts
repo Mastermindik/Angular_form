@@ -49,16 +49,6 @@ export class FormComponent {
   get email() {
     return this.form.controls['email']
   }
-  val(control: FormControl) {
-    let resu = new Promise<any>((res, rej) => {
-      if (control.value === 'test@test.test') {
-        return res({ emnotall: true })
-      } else {
-        res(null)
-      }
-    })
-    return resu
-  }
 
   //Submit
   submit(): void {
@@ -74,6 +64,8 @@ export class FormComponent {
   //Datepicker
   changeFormat(): void {
     const dateOfBirthValue = moment(this.form.get('dateOfBirth')?.value).format("YYYY-MM-DD").toString();
+    console.log(dateOfBirthValue);
+    
     this.form.get('dateOfBirth')?.setValue(dateOfBirthValue);
   }
   //Framework version

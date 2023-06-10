@@ -13,7 +13,7 @@ export class EmailValidationService {
     return this.http.get('https://sss.com').pipe(
       catchError((res) => {
         delay(2000)
-        return c.value === 'test@test.test' ? of({ fail: true }) : of(null)
+        return c.value === 'test@test.test' ? of({ emailExist: true }) : of(null)
       }))
   }
 }
