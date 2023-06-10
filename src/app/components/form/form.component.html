@@ -1,0 +1,59 @@
+<div class="form">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field class="name">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" formControlName="firstName" required>
+        </mat-form-field>
+        <mat-form-field class="last-name">
+            <mat-label>Last Name</mat-label>
+            <input matInput type="text" formControlName="lastName" required>
+        </mat-form-field>
+        <mat-form-field class="birthday">
+            <mat-label>Birthday date</mat-label>
+            <input matInput [matDatepicker]="picker" [max]="maxDate" formControlName="dateOfBirth" (dateChange)="changeFormat()" required>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="technology">
+            <mat-label>JS technology</mat-label>
+            <mat-select formControlName="framework" (ngModelChange)="enableVersions()" required>
+                <mat-option *ngFor="let technology of jsTechnologies" [value]="technology">
+                    {{technology | titlecase}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="version">
+            <mat-label>Version</mat-label>
+            <mat-select formControlName="frameworkVersion" required>
+                <mat-option *ngFor="let version of versions[form.get('framework')?.value]" [value]="version">
+                    {{version}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="email">
+            <mat-label>Enter your email</mat-label>
+            <input matInput placeholder="pat@example.com" formControlName="email" required>
+            <mat-error *ngIf="email.errors">Email not valid</mat-error>
+            <!-- <mat-error *ngIf="form.get('email')?.errors?.['fail']">Email not </mat-error> -->
+        </mat-form-field>
+        <div formArrayName="hobbies" *ngFor="let hobby of getHobbyControls(); let i = index;" class="hobbies">
+            <div [formGroupName]="i" class="hobby">
+                <mat-form-field >
+                    <mat-label>Hobby Name</mat-label>
+                    <input matInput type="text" formControlName="name">
+                </mat-form-field>
+                <mat-form-field >
+                    <mat-label>Hobby duration</mat-label>
+                    <input matInput type="text" formControlName="duration">
+                </mat-form-field>
+                <button mat-mini-fab color="warn" *ngIf="showRemoveBtn(i)" (click)="removeHobby(i)" type="button">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <button mat-mini-fab color="primary" *ngIf="showAddBtn(i)" (click)="addHobby()" type="button">
+                    <mat-icon>add</mat-icon>
+                  </button>
+            </div>
+        </div>
+        <button mat-raised-button color="primary" type="submit" >Submit</button>
+    </form>
+</div>
